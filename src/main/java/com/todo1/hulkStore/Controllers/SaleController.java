@@ -13,7 +13,6 @@ import java.util.List;
 @RequestMapping("/sale")
 public class SaleController {
 
-    @Autowired
     private final SaleService saleService;
 
     @Autowired

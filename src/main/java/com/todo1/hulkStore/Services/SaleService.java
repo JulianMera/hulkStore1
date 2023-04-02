@@ -21,7 +21,6 @@ import java.util.Locale;
 @Transactional
 public class SaleService {
 
-    @Autowired
     private final SaleRepository saleRepository;
     private final UserService userService;
     private final ShoppingCartService shoppingCartService;
@@ -32,20 +31,19 @@ public class SaleService {
         this.saleRepository = saleRepository;
         this.userService = userRepository;
         this.shoppingCartService = shoppingCartService;
-
         this.detailService = detailService;
     }
     public List<Sale> getSaleByClient(String clientName) {
         return this.saleRepository.findByClient(clientName);
     }
     public void createSale(String clientName) {
-        User client = this.userService.getClientByUserName(clientName).get(0);
-        List<ShoppingCart> shoppingCartList = shoppingCartService.findByClientName(client.getUserName());
+        User client = (User) this.userService.getClientByUserName(clientName);
+        List<ShoppingCart> shoppingCartList = shoppingCartService.findByClientName(client.getUser());
         DecimalFormat decimalFormat = new DecimalFormat("0.00", new DecimalFormatSymbols(Locale.US));
         decimalFormat.setRoundingMode(RoundingMode.DOWN);
         double total = shoppingCartList.stream().mapToDouble(shoppingCartItem ->
         shoppingCartItem.getProduct().getPrice() * shoppingCartItem.getAmount()).sum();
-        Sale sale = new Sale(Double.parseDouble(decimalFormat.format(total)), new Date(), client);
+        Sale sale = new Sale(new Date(), client, Double.parseDouble(decimalFormat.format(total)));
         Sale saveSale = this.saleRepository.save(sale);
         for (ShoppingCart shoppingCart : shoppingCartList) {
             Detail detail = new Detail();

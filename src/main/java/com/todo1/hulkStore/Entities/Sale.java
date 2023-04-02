@@ -4,13 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.ManyToAny;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Data
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class Sale {
 
     @Id
@@ -26,10 +28,10 @@ public class Sale {
 
     private Double total;
 
-    public Sale(double total, Date date, User client) {
-        this.total = total;
+    @Autowired
+    public Sale(Date date, User client, Double total) {
         this.date = date;
         this.client = client;
-
+        this.total = total;
     }
 }

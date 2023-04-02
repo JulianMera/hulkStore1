@@ -17,6 +17,6 @@ public class UserService {
         this.userRepository = userRepository;
     }
     public List<User> getClientByUserName(String userName) {
-        return this.userRepository.findByUserName(userName);
+        return this.userRepository.findByUser(userName);
     }
 }

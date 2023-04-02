@@ -20,7 +20,12 @@ public class User {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
 
-    private String userName;
+    private String user;
 
     private  String password;
+
+    public User(String user, String password) {
+        this.user = user;
+        this.password = password;
+    }
 }

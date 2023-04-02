@@ -21,7 +21,7 @@ public class ShoppingCartService {
     }
 
     public List<ShoppingCart> findByClientName(String clientName){
-        return this.shoppingCartRepository.findByClientName(clientName);
+        return this.shoppingCartRepository.findByClientUser(clientName);
     }
     public void cleanShoppingCart(String clientId) {
         this.shoppingCartRepository.deleteByClientId(clientId);
